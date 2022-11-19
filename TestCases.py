@@ -76,7 +76,7 @@ class TestIntegerDivisionMethod(TestCase):
             limitations=task.limitations
         )
 
-        self.assertEqual(result, task.expected_result)
+        self.assertEqual(task.expected_result, result)
 
     def test_example_1(self):
         self.example(EXAMPLE_TASKS[0])
