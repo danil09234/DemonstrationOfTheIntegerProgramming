@@ -1,13 +1,15 @@
 from unittest import TestCase
 from typing import Callable, NamedTuple
 
-from main import LimitationsFor2Numbers, integer_division_for_an_equation_with_2_unknowns, Solution
+from main import LimitationsFor2Numbers, integer_division_for_an_equation_with_2_unknowns, Solution, \
+    write_solution_to_file
 
 
 class TestTask(NamedTuple):
     equation: Callable[[float | int, float | int], float | int]
     limitations: LimitationsFor2Numbers
     expected_result: Solution
+    result_filename: str
 
 
 EXAMPLE_TASKS = [
@@ -20,7 +22,8 @@ EXAMPLE_TASKS = [
             get_possible_a=lambda b: [(45 - 6 * b) / 10, 5 - b],
             get_possible_b=lambda a: [(45 - 10 * a) / 6, 5 - a]
         ),
-        expected_result=Solution(a=3, b=2, result=23)
+        expected_result=Solution(a=3, b=2, result=23),
+        result_filename="example1.txt"
     ),
     TestTask(
         equation=lambda a, b: 2 * a + 4 * b,
@@ -31,7 +34,8 @@ EXAMPLE_TASKS = [
             get_possible_a=lambda b: [10 - 3 * b, ((19 / 3) - b) / 2],
             get_possible_b=lambda a: [(19 / 3) / (2 * a), (10 - a) / 3]
         ),
-        expected_result=Solution(a=1, b=3, result=14)
+        expected_result=Solution(a=1, b=3, result=14),
+        result_filename="example2.txt"
     ),
     TestTask(
         equation=lambda a, b: 3 * a + b,
@@ -42,7 +46,8 @@ EXAMPLE_TASKS = [
             get_possible_a=lambda b: [(13 - 5 * b) / 2, (13 - 5 * b) / 2],
             get_possible_b=lambda a: [(13 - 2 * a) / 5, 6]
         ),
-        expected_result=Solution(a=6, b=0, result=18)
+        expected_result=Solution(a=6, b=0, result=18),
+        result_filename="example3.txt"
     ),
     TestTask(
         equation=lambda a, b: 3 * a + b,
@@ -53,7 +58,8 @@ EXAMPLE_TASKS = [
             get_possible_a=lambda b: [(6 - 3 * b) / 2, (3 + 3 * b) / 2],
             get_possible_b=lambda a: [(6 - 2 * a) / 3, (3 - 2 * a) / (-3)]
         ),
-        expected_result=Solution(a=1, b=1, result=4)
+        expected_result=Solution(a=1, b=1, result=4),
+        result_filename="example4.txt"
     ),
     TestTask(
         equation=lambda a, b: a + 2 * b,
@@ -64,7 +70,8 @@ EXAMPLE_TASKS = [
             get_possible_a=lambda b: [(21 - 7 * b) / 5, (-8) + 3 * b],
             get_possible_b=lambda a: [(21 - 5 * a) / 7, (8 + a) / 3]
         ),
-        expected_result=Solution(a=1, b=2, result=5)
+        expected_result=Solution(a=1, b=2, result=5),
+        result_filename="example5.txt"
     )
 ]
 
@@ -75,6 +82,8 @@ class TestIntegerDivisionMethod(TestCase):
             equation=task.equation,
             limitations=task.limitations
         )
+
+        write_solution_to_file(result, task.result_filename)
 
         self.assertEqual(task.expected_result, result)
 

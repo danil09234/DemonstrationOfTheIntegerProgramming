@@ -164,3 +164,16 @@ def integer_division_for_an_equation_with_2_unknowns(
     all_solutions = get_all_solutions(equation, limitations, limitations.optimal_a, limitations.optimal_b)
 
     return get_max_solution(all_solutions)
+
+
+def write_solution_to_file(solution: Solution, result_filename: str):
+    with open(result_filename, "w") as write_file:
+        write_file.write(f"Solution for a={solution.a} and b={solution.b} = {solution.result}")
+
+
+if __name__ == "__main__":
+    import unittest
+    from TestCases import TestIntegerDivisionMethod
+
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestIntegerDivisionMethod)
+    unittest.TextTestRunner().run(suite)
